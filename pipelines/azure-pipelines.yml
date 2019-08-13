@@ -30,6 +30,7 @@ stages:
         script: 'terraform apply -auto-approve -var="name_prefix=$(name_prefix)" -var="name_base=$(name_base)" -var="name_suffix=$(name_suffix)"'
         targetStorageAccountName: cdwterraformstate
         backendContainerName: learnazdo
+        backendStateFileKey: $(app_name).tfstate
         workingDirectory: './terraform'
 
 - stage: Build
