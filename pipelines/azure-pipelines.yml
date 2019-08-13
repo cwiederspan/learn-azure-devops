@@ -27,7 +27,7 @@ stages:
       displayName: Terraform Infra
       inputs:
         targetAzureSubscription: 'CDW - Microsoft AIRS 01 (b9c770d1-cde9-4da3-ae40-95ce1a4fac0c)'
-        script: 'terraform apply -auto-approve'
+        script: 'terraform apply -auto-approve -var="name_prefix=$(name_prefix)" -var="name_base=$(name_base)" -var="name_suffix=$(name_suffix)"'
         targetStorageAccountName: cdwterraformstate
         backendContainerName: learnazdo
         workingDirectory: './terraform'
@@ -44,6 +44,7 @@ stages:
         azureSubscription: 'CDW - Microsoft AIRS 01 (b9c770d1-cde9-4da3-ae40-95ce1a4fac0c)'
         scriptLocation: inlineScript
         inlineScript: |
+          sed -i 's/XXX/$(Build.BuildId)/g' ./src/index.html
           az acr build -r $(acr_name) -t $(tagged) -t $(latest) -f ./src/Dockerfile ./src/
 
 - stage: Staging
